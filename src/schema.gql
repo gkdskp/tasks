@@ -1,0 +1,25 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type TaskModel {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Query {
+  getTasks: [TaskModel!]!
+  getTaskById(id: ID!): TaskModel!
+}
+
+type Mutation {
+  createTask(name: String!, description: String!): TaskModel!
+  updateTask(id: ID!, patch: TaskInput!): TaskModel!
+  deleteTask(id: ID!): TaskModel!
+}
+
+input TaskInput {
+  name: String
+  description: String
+}

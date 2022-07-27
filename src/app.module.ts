@@ -24,10 +24,7 @@ import { join } from 'path';
       driver: ApolloDriver,
       debug: true,
       playground: true,
-      typePaths: ['./**/*.graphql'],
-      definitions: {
-        path: join(process.cwd(), 'src/graphql.ts'),
-      },
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }), 
 
     TaskModule,

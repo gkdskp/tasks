@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TaskDto } from './task.dto';
 import { TaskEntity } from './task.entity';
+import { TaskInput } from './task.input';
 
 @Injectable()
 export class TaskService {
@@ -28,7 +29,7 @@ export class TaskService {
         return task;
     }
 
-    async update(id: string, patch: TaskDto) {
+    async update(id: string, patch: TaskInput) {
         const task = await this.findOne(id);
 
         task.name = patch?.name ?? task.name;
