@@ -6,12 +6,11 @@
   "password": "postgres",
   "database": "myapp",
   "logging": true,
-  "entities": ["dist/**/*.entity.js"],
+  "entities": [
+    "dist/**/*.entity.js"
+  ],
   "migrationsTableName": "migration",
   "migrations": [
     "src/migration/*.ts"
-  ],
-  "cli": {
-    "migrationsDir": "src/migration"
-  }
+  ]
 }
