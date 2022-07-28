@@ -10,7 +10,7 @@ export class GraphQLLoggerMiddleware implements NestMiddleware {
     )
     
     use(req: any, res: any, next: (error?: any) => void) {
-        this.logger.info(`${JSON.stringify(req.body)}`);
+        // this.logger.info(`${JSON.stringify(req.body)}`);
         next();
     }
 }

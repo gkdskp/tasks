@@ -16,6 +16,19 @@ type User {
     role: Role
 }
 
+type TokenOutput {
+    token: String!
+}
+
+type Message {
+    message: String!
+}
+
+input UserCredentials {
+    email: String!
+    password: String!
+}
+
 input TaskInput {
     name: String
     description: String
@@ -26,10 +39,6 @@ input UserInput {
     password: String!
     email: String!
     role: Role!
-}
-
-type Message {
-    message: String!
 }
 
 type Query {
@@ -47,4 +56,5 @@ type Mutation {
     makeAdmin(id: String!): User
     makeUser(id: String!): User
     deleteUser(id: String!): Message
+    login(credentials: UserCredentials!): TokenOutput
 }
