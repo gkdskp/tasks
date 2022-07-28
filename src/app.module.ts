@@ -36,6 +36,9 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(GraphQLLoggerMiddleware)
-      .forRoutes({ path: 'graphql', method: RequestMethod.POST });
+      .forRoutes({ 
+        path: 'graphql', 
+        method: RequestMethod.POST 
+      });
   }
 }

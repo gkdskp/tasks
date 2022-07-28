@@ -2,6 +2,8 @@ import { Resolver, Query, Args, ID, Mutation } from "@nestjs/graphql"
 import { TaskService } from "./task.service";
 import { TaskInput } from "../graphql";
 import { TaskDto } from "./task.dto";
+import { UseFilters } from "@nestjs/common";
+import { HttpExceptionFilter } from "src/common/exceptions/http-exception.filter";
 
 @Resolver('Task')
 export class TaskResolver {
@@ -28,6 +30,7 @@ export class TaskResolver {
     }
 
     @Mutation()
+    @UseFilters(HttpExceptionFilter)
     async updateTask(
         @Args('id', { type: () => ID }) id: string,
         @Args('patch') patch: TaskDto

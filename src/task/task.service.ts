@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EntityNotFoundException } from 'src/common/exceptions/entity-not-found.exception';
 import { Repository } from 'typeorm';
 import { TaskDto } from './task.dto';
 import { TaskEntity } from './task.entity';
@@ -30,6 +31,10 @@ export class TaskService {
 
     async update(id: string, patch: TaskDto) {
         const task = await this.findOne(id);
+
+        if(!task) {
+            throw new EntityNotFoundException();
+        }
 
         task.name = patch?.name ?? task.name;
         task.description == patch?.description ?? task.description;
