@@ -1,11 +1,10 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import { TaskModule } from './task/task.module';
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { GraphQLLoggerMiddleware } from './common/middlewares/graphql-logger.middleware';
 
 
 @Module({
@@ -32,8 +31,11 @@ import { join } from 'path';
 
     TaskModule,
   ],
-
-  controllers: [AppController],
-  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(GraphQLLoggerMiddleware)
+      .forRoutes({ path: 'graphql', method: RequestMethod.POST });
+  }
+}
