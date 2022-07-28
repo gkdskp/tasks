@@ -5,6 +5,7 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { GraphQLLoggerMiddleware } from './common/middlewares/graphql-logger.middleware';
+import { UserModule } from './user/user.module';
 
 
 @Module({
@@ -29,7 +30,7 @@ import { GraphQLLoggerMiddleware } from './common/middlewares/graphql-logger.mid
       },
     }), 
 
-    TaskModule,
+    TaskModule, UserModule,
   ],
 })
 export class AppModule implements NestModule {

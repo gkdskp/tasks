@@ -42,6 +42,7 @@ export class TaskResolver {
     async deleteTask(
         @Args('id', { type: () => ID }) id: string
     ) {
-        return await this.taskService.delete(id);
+        await this.taskService.delete(id);
+        return {"message": "success"};
     }
 }

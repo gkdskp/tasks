@@ -1,7 +1,19 @@
+enum Role {
+    admin
+    user
+}
+
 type Task {
     id: ID!
     name: String!
     description: String
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    role: Role
 }
 
 input TaskInput {
@@ -9,13 +21,30 @@ input TaskInput {
     description: String
 }
 
+input UserInput {
+    name: String!
+    password: String!
+    email: String!
+    role: Role!
+}
+
+type Message {
+    message: String!
+}
+
 type Query {
     getTasks: [Task]!
     getTaskById(id: ID!): Task
+    getUsers: [User]!
+    getUserById(id: ID!): User
 }
 
 type Mutation {
     createTask(name: String!, description: String): Task
     updateTask(id: String!, patch: TaskInput): Task
-    deleteTask(id: String!): Task
+    deleteTask(id: String!): Message
+    createUser(user: UserInput!): User!
+    makeAdmin(id: String!): User
+    makeUser(id: String!): User
+    deleteUser(id: String!): Message
 }
