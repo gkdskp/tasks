@@ -11,13 +11,12 @@ export class AuthGuard implements CanActivate {
             const ctx = GqlExecutionContext.create(context);
             const req = ctx.getContext().req;
 
-            // console.log(ctx.switchToHttp().getRequest());
-
             const token = this.getTokenFromRequestHeader(req);
             const data = jsonwebtoken.decode(token);
 
             req.userRole = data['role'];
-
+            req.user = data['id'];
+            
 
             jsonwebtoken.verify(token, process.env.JWT_TOKEN_SECRET);
             return true;

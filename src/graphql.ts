@@ -34,6 +34,7 @@ export interface Task {
     id: string;
     name: string;
     description?: Nullable<string>;
+    user?: Nullable<User>;
 }
 
 export interface User {

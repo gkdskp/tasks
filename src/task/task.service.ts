@@ -50,4 +50,12 @@ export class TaskService {
 
         return task;
     }
+
+    async getTaskUser(id: string) {
+        const task = await this.taskRepository.findOne(
+            id, { relations: ['user'] }
+        );
+
+        return task.user;
+    }
 }
