@@ -31,6 +31,7 @@
     "@nestjs/typeorm": "^9.0.0",
     "apollo-server-express": "^3.10.0",
     "bcrypt": "^5.0.1",
+    "dataloader": "^2.1.0",
     "graphql": "^16.5.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",

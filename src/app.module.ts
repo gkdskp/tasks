@@ -1,11 +1,13 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskModule } from './task/task.module';
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { GraphQLLoggerMiddleware } from './common/middlewares/graphql-logger.middleware';
 import { UserModule } from './user/user.module';
+import { createUserLoader } from './user/user.loader';
+import { UserService } from './user/user.service';
 
 
 @Module({
@@ -20,15 +22,22 @@ import { UserModule } from './user/user.module';
       entities: [__dirname + '../../dist/**/*.entity.js']
     }),
 
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync({
       driver: ApolloDriver,
-      debug: true,
-      playground: true,
-      typePaths: ['./**/*.graphql'],
-      definitions: {
-        path: join(process.cwd(), 'src/graphql.ts'),
-      },
-    }), 
+      inject: [UserService],
+      imports: [UserModule],
+      useFactory: (userService: UserService) => ({
+        debug: true,
+        playground: true,
+        typePaths: ['./**/*.graphql'],
+        definitions: {
+          path: join(process.cwd(), 'src/graphql.ts'),
+        },
+        context: () => ({
+          userLoader: createUserLoader(userService)
+        })
+      })
+    }),
 
     TaskModule, UserModule,
   ],
@@ -37,9 +46,9 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(GraphQLLoggerMiddleware)
-      .forRoutes({ 
-        path: 'graphql', 
-        method: RequestMethod.POST 
+      .forRoutes({
+        path: 'graphql',
+        method: RequestMethod.POST
       });
   }
 }

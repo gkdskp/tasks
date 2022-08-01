@@ -93,4 +93,8 @@ export class UserService {
         const token = jsonwebtoken.sign({ id: user.id, role: user.role }, process.env.JWT_TOKEN_SECRET);
         return token;
     }
+
+    async getUserByIds(id: string[]) {
+        return this.userRepository.findByIds(id);
+    }
 }

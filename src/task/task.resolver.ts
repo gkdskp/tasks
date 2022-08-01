@@ -1,11 +1,11 @@
-import { Resolver, Query, Args, ID, Mutation, ResolveField, Parent } from "@nestjs/graphql"
+import { Resolver, Query, Args, ID, Mutation, ResolveField, Parent, Context } from "@nestjs/graphql"
 import { TaskService } from "./task.service";
-import { TaskInput } from "../graphql";
 import { TaskDto } from "./task.dto";
 import { UseFilters } from "@nestjs/common";
 import { HttpExceptionFilter } from "src/common/exceptions/http-exception.filter";
 import { UserEntity } from "src/user/user.entity";
 import { TaskEntity } from "./task.entity";
+import DataLoader from "dataloader";
 
 @Resolver('Task')
 export class TaskResolver {
@@ -51,9 +51,10 @@ export class TaskResolver {
 
     @ResolveField('user', () => UserEntity)
     async getUser(
-        @Parent() task: TaskEntity
+        @Parent() task: TaskEntity,
+        @Context('userLoader') userLoader: DataLoader<string, UserEntity>
     ) {
-        const { id } = task;
-        return await this.taskService.getTaskUser(id);
+        const { userId } = task;
+        return userLoader.load(userId);
     }
 }
